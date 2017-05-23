@@ -11,20 +11,24 @@
         <SimulationMode>false</SimulationMode>
         <NamesListFieldName>Assigned To</NamesListFieldName>
 
-        <ServiceIdentityPatFile>.\Resources\vsopat.bin</ServiceIdentityPatFile>
-
+        <ServiceIdentityUsername>jie.rong@outlook.com</ServiceIdentityUsername>
+        <ServiceIdentityPatKeyVaultSecret>
+          <KeyVaultPath>https://jierong-mail2bug.vault.azure.net/secrets/mail2bug-vstspat/075e11ca211b4099aad5f091de53d233</KeyVaultPath>
+          <ApplicationIdEnvironmentVariableName>DIRECTORY_APPLICATION_ID</ApplicationIdEnvironmentVariableName>
+          <ApplicationSecretEnvironmentVariableName>DIRECTORY_APPLICATION_SECRET</ApplicationSecretEnvironmentVariableName>
+        </ServiceIdentityPatKeyVaultSecret>
       </TfsServerConfig>
       <WorkItemSettings>
         <!-- The conversation index field should be a textual field with a capacity of 200 or more. Ideally 
              you'll create a dedicated field for this rather than overloading an existing one, to avoid
              other people/tools overwriting it with unrelated data. Also, by making it dedicated, you can
              also make the decision to make it invisible (since no one should be editing it manually)-->
-        <ConversationIndexFieldName>System Info</ConversationIndexFieldName>
+        <ConversationIndexFieldName>Integration Build</ConversationIndexFieldName>
         <DefaultFieldValues>
           <!-- The important part is to include a default value for every mandatory field, otherwise work
                item creation will fail. The only automatically defined default is the 'Title' field, that gets
                the email subject as a value. -->
-          <DefaultValueDefinition Field="Assigned To" Value="Unassigned" />
+          <DefaultValueDefinition Field="Assigned To" Value="Active" />
           <DefaultValueDefinition Field="Severity" Value="1" />
           <DefaultValueDefinition Field="Area Path" Value="jierongproj\BusinessLogic" />
           <DefaultValueDefinition Field="Iteration Path" Value="jierongproj\Iteration 1" />
@@ -32,6 +36,8 @@
         </DefaultFieldValues>
         <!-- 'true' means we should attached the email message that triggered the creation of the work item -->
         <AttachOriginalMessage>true</AttachOriginalMessage>
+        <AddEmailHeaderToItem>false</AddEmailHeaderToItem>
+        <DefaultAssign>Active</DefaultAssign>
       </WorkItemSettings>
       <EmailSettings>
         <!-- EWSByRecipients is the most straight-forward way to set up the mailbox. Basically, it will process
@@ -54,7 +60,11 @@
              with DPAPI - use the DpapiTool.exe from the Tools subfolder to create one. Note that the tool needs to be
              run under the same credentials that mail2bug will run with, otherwise it won't be able to decrypt the
              contents. -->
-        <EWSPasswordFile>.\Resources\mailboxpwd.bin</EWSPasswordFile>
+        <EWSKeyVaultSecret>
+          <KeyVaultPath>https://jierong-mail2bug.vault.azure.net/secrets/mail2bug-mailpwd/3e97445c65f8415280cf1470e61c0a05</KeyVaultPath>
+          <ApplicationIdEnvironmentVariableName>DIRECTORY_APPLICATION_ID</ApplicationIdEnvironmentVariableName>
+          <ApplicationSecretEnvironmentVariableName>DIRECTORY_APPLICATION_SECRET</ApplicationSecretEnvironmentVariableName>
+        </EWSKeyVaultSecret>
         <SendAckEmails>false</SendAckEmails>
         <AckEmailsRecipientsAll>false</AckEmailsRecipientsAll>
 
